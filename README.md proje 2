@@ -1,0 +1,41 @@
+Bu proje, Galatasaray Spor Kulübü'nün 2012-2026 yılları arasındaki kritik müsabakalarını (Avrupa Kupaları ve Süper Lig Derbileri) veritabanı mantığıyla listeleyen, istatistiksel analiz sunan ve kullanıcı dostu bir arayüzle görselleştiren bir Bireysel Ürün Geliştirme projesidir.
+🚀 Proje Hakkında
+
+Geleneksel spor sitelerindeki dağınık veri yapısının aksine, bu proje verileri nesne tabanlı (Object-Oriented) bir yapıda tutarak; sezon bazlı filtreleme, sonuç odaklı görsel etiketleme ve maç bazlı performans metrikleri sunar.
+🛠 Kullanılan Teknolojiler
+
+    HTML5 & CSS3: Modern ve responsive arayüz tasarımı.
+
+    Tailwind CSS: Hızlı, ölçeklenebilir ve mobil uyumlu stil yapılandırması.
+
+    JavaScript (Vanilla): Veri yönetimi, dinamik DOM manipülasyonu ve filtreleme motoru.
+
+✨ Temel Özellikler
+
+    Dinamik Filtreleme: Sezon seçimi yaparak ilgili dönemin maçlarına anında erişim.
+
+    Görsel Analiz: Galibiyet, Beraberlik ve Mağlubiyet durumlarına göre otomatik renk kodlu etiketler.
+
+    Hızlı Arama/Listeleme: Sayfa yenilemeye gerek duymadan anlık veri güncelleme.
+
+    Responsive Tasarım: Masaüstü, tablet ve mobil cihazlarla tam uyumlu arayüz.
+    
+    💻 Nasıl Çalıştırılır?
+
+    Bu depoyu bilgisayarınıza klonlayın veya indirin.
+
+    2. proje.html dosyasını herhangi bir web tarayıcısında (Chrome, Edge, Firefox) açın.
+
+    Herhangi bir sunucu kurulumuna gerek yoktur, doğrudan tarayıcı üzerinden çalışır.
+
+    🎓 Akademik Bilgiler
+
+    Ders: Akademik Yapay Zekaya Giriş
+
+    Proje Kategorisi: Veri Analizi ve Görselleştirme
+
+    Öğrenci: Mustafa Kınacı
+
+    Öğrenci No: 2544001022
+
+Bu proje, spor istatistiklerinin dijital ortamda daha okunabilir ve analiz edilebilir hale getirilmesi vizyonuyla geliştirilmiştir.
