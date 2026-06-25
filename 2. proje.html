@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galatasaray Tarihsel Maç Arşivi & Sezon İstatistikleri</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans">
+
+    <header class="bg-black border-b-4 border-[#FDB913] p-5 shadow-2xl">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-4">
+                <div class="bg-[#A32638] p-3 rounded-full border-2 border-[#FDB913]">
+                    <span class="font-bold text-2xl text-[#FDB913]">GS</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-wider text-white">GALATASARAY <span class="text-[#FDB913]">BÜYÜK MAÇ ARŞİVİ</span></h1>
+                    <p class="text-xs text-gray-400">Avrupa Kupaları ve Süper Lig Derbileri İstatistik Arşivi (2012 - 2026)</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-800 p-2 rounded-xl border border-gray-700">
+                <label for="yearSelect" class="text-sm font-semibold text-gray-300 pl-2">Sezon Seçin:</label>
+                <select id="yearSelect" class="bg-gray-900 text-white border border-gray-600 rounded-lg p-2 focus:outline-none focus:border-[#FDB913] cursor-pointer">
+                    <option value="all">Tüm Sezonlar</option>
+                    <option value="2012">2012-2013 Sezonu</option>
+                    <option value="2013">2013-2014 Sezonu</option>
+                    <option value="2014">2014-2015 Sezonu</option>
+                    <option value="2015">2015-2016 Sezonu</option>
+                    <option value="2016">2016-2017 Sezonu</option>
+                    <option value="2017">2017-2018 Sezonu</option>
+                    <option value="2018">2018-2019 Sezonu</option>
+                    <option value="2019">2019-2020 Sezonu</option>
+                    <option value="2020">2020-2021 Sezonu</option>
+                    <option value="2021">2021-2022 Sezonu</option>
+                    <option value="2022">2022-2023 Sezonu</option>
+                    <option value="2023">2023-2024 Sezonu</option>
+                    <option value="2024">2024-2025 Sezonu</option>
+                    <option value="2025">2025-2026 Sezonu</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-10 bg-gray-800 border-l-8 border-[#FDB913] rounded-2xl p-6 shadow-xl">
+            <div class="flex items-center gap-3 mb-4">
+                <h2 class="text-xl font-bold tracking-wide text-white">📊 Sezon İstatistik ve Teknik Analiz Raporu</h2>
+            </div>
+            <div id="statsOutput" class="text-gray-300 leading-relaxed text-sm md:text-base">
+                Lütfen dönemsel istatistikleri ve taktiksel kırılımları listelemek için sağ üst köşeden bir sezon seçiniz.
+            </div>
+        </section>
+
+        <div class="flex justify-between items-center mb-6 border-b border-gray-800 pb-2">
+            <h3 class="text-lg font-bold tracking-wider uppercase text-gray-400" id="sectionTitle">Tüm Dönemlerin Kritik Maçları</h3>
+            <span id="matchCount" class="bg-[#A32638] text-[#FDB913] text-xs font-bold px-3 py-1 rounded-full border border-[#FDB913]">0 Maç Listelendi</span>
+        </div>
+
+        <section id="matchGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
+    </main>
+
+    <footer class="bg-black text-center py-6 mt-12 border-t border-gray-800 text-xs text-gray-500">
+        <p>© 2026 Galatasaray Tarihsel Maç Arşivi Projesi. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+    const matchData = [
+
+        // ===== 2012-2013 (SADECE AVRUPA) =====
+        // GS 3-2 Real Madrid, 09.04.2013 — Burak 2, Hamit; Ronaldo, Higuain
+        { id: 1, year: "2012", title: "Galatasaray 3 - 2 Real Madrid (UCL Çeyrek Final)", date: "09.04.2013", stats: { gsGol: 3, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 6,  oyuncu: "Burak Yılmaz",    tip: "gol",     taraf: "gs" },
+            { dk: 36, oyuncu: "C. Ronaldo",       tip: "gol",     taraf: "rakip" },
+            { dk: 43, oyuncu: "Burak Yılmaz",     tip: "penalti", taraf: "gs" },
+            { dk: 55, oyuncu: "Hamit Altıntop",   tip: "gol",     taraf: "gs" },
+            { dk: 74, oyuncu: "G. Higuaín",       tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // Real 3-0 GS, 03.04.2013 — Ronaldo 2, Benzema
+        { id: 2, year: "2012", title: "Real Madrid 3 - 0 Galatasaray (UCL Çeyrek Final)", date: "03.04.2013", stats: { gsGol: 0, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 33, oyuncu: "C. Ronaldo",  tip: "penalti", taraf: "rakip" },
+            { dk: 47, oyuncu: "C. Ronaldo",  tip: "gol",     taraf: "rakip" },
+            { dk: 78, oyuncu: "K. Benzema",  tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // Schalke 2-3 GS, 12.03.2013 — Burak 2, Elmander; Huntelaar 2
+        { id: 3, year: "2012", title: "Schalke 04 2 - 3 Galatasaray (UCL Son 16)", date: "12.03.2013", stats: { gsGol: 3, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 17, oyuncu: "Huntelaar",       tip: "gol", taraf: "rakip" },
+            { dk: 27, oyuncu: "Burak Yılmaz",    tip: "gol", taraf: "gs" },
+            { dk: 51, oyuncu: "J. Elmander",     tip: "gol", taraf: "gs" },
+            { dk: 69, oyuncu: "Huntelaar",       tip: "gol", taraf: "rakip" },
+            { dk: 90, oyuncu: "Burak Yılmaz",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 1-1 Schalke, 20.02.2013 — Selçuk; Huntelaar (P)
+        { id: 4, year: "2012", title: "Galatasaray 1 - 1 Schalke 04 (UCL Son 16)", date: "20.02.2013", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 36, oyuncu: "Selçuk İnan",  tip: "gol",     taraf: "gs" },
+            { dk: 84, oyuncu: "Huntelaar",    tip: "penalti", taraf: "rakip" }
+          ]
+        },
+        // GS 1-0 Man Utd, 20.11.2012 — Burak
+        { id: 5, year: "2012", title: "Galatasaray 1 - 0 Manchester United (UCL Grup)", date: "20.11.2012", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 70, oyuncu: "Burak Yılmaz", tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Man Utd 1-0 GS, 19.09.2012 — Wayne Rooney
+        { id: 6, year: "2012", title: "Manchester United 1 - 0 Galatasaray (UCL Grup)", date: "19.09.2012", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [
+            { dk: 40, oyuncu: "W. Rooney", tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Braga 1-2 GS, 05.12.2012 — Selçuk, Burak; Alan
+        { id: 7, year: "2012", title: "Braga 1 - 2 Galatasaray (UCL Grup)", date: "05.12.2012", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 17, oyuncu: "Alan",          tip: "gol", taraf: "rakip" },
+            { dk: 55, oyuncu: "Selçuk İnan",   tip: "gol", taraf: "gs" },
+            { dk: 73, oyuncu: "Burak Yılmaz",  tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 0-2 Braga, 02.10.2012 — Alan, Eder
+        { id: 8, year: "2012", title: "Galatasaray 0 - 2 Braga (UCL Grup)", date: "02.10.2012", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 22, oyuncu: "Alan", tip: "gol", taraf: "rakip" },
+            { dk: 77, oyuncu: "Eder", tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 1-1 CFR Cluj, 23.10.2012 — Burak (P); Kapetanos
+        { id: 9, year: "2012", title: "Galatasaray 1 - 1 CFR Cluj (UCL Grup)", date: "23.10.2012", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 39, oyuncu: "Burak Yılmaz",  tip: "penalti", taraf: "gs" },
+            { dk: 66, oyuncu: "Kapetanos",      tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // CFR Cluj 1-3 GS, 07.11.2012 — Burak, Felipe Melo, Selçuk; Kapetanos
+        { id: 10, year: "2012", title: "CFR Cluj 1 - 3 Galatasaray (UCL Grup)", date: "07.11.2012", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 12, oyuncu: "Burak Yılmaz",  tip: "gol", taraf: "gs" },
+            { dk: 34, oyuncu: "Felipe Melo",   tip: "gol", taraf: "gs" },
+            { dk: 58, oyuncu: "Kapetanos",      tip: "gol", taraf: "rakip" },
+            { dk: 81, oyuncu: "Selçuk İnan",   tip: "gol", taraf: "gs" }
+          ]
+        },
+
+        // ===== 2013-2014 (SADECE AVRUPA) =====
+        // GS 1-0 Juventus, 11.12.2013 — Burak Yılmaz
+        { id: 17, year: "2013", title: "Galatasaray 1 - 0 Juventus (UCL Grup)", date: "11.12.2013", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 58, oyuncu: "Burak Yılmaz", tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Juventus 2-2 GS, 02.10.2013 — Tevez, Llorente; Drogba, Selçuk (P)
+        { id: 18, year: "2013", title: "Juventus 2 - 2 Galatasaray (UCL Grup)", date: "02.10.2013", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 8,  oyuncu: "C. Tevez",      tip: "gol",     taraf: "rakip" },
+            { dk: 31, oyuncu: "D. Drogba",     tip: "gol",     taraf: "gs" },
+            { dk: 66, oyuncu: "F. Llorente",   tip: "gol",     taraf: "rakip" },
+            { dk: 89, oyuncu: "Selçuk İnan",   tip: "penalti", taraf: "gs" }
+          ]
+        },
+        // GS 3-1 FC Copenhagen, 23.10.2013 — Drogba, Sneijder, Amrabat; Johannsson
+        { id: 19, year: "2013", title: "Galatasaray 3 - 1 FC Copenhagen (UCL Grup)", date: "23.10.2013", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 14, oyuncu: "D. Drogba",     tip: "gol", taraf: "gs" },
+            { dk: 28, oyuncu: "W. Sneijder",   tip: "gol", taraf: "gs" },
+            { dk: 53, oyuncu: "Ari Johannsson", tip: "gol", taraf: "rakip" },
+            { dk: 77, oyuncu: "N. Amrabat",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        // FC Copenhagen 1-0 GS, 05.11.2013 — Claudemir
+        { id: 20, year: "2013", title: "FC Copenhagen 1 - 0 Galatasaray (UCL Grup)", date: "05.11.2013", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [
+            { dk: 45, oyuncu: "Claudemir", tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 1-6 Real Madrid, 17.09.2013 — Ronaldo 3, Benzema, Bale, Ramos; Hamit
+        { id: 21, year: "2013", title: "Galatasaray 1 - 6 Real Madrid (UCL Grup)", date: "17.09.2013", stats: { gsGol: 1, rakipGol: 6, sonuc: "M" },
+          goller: [
+            { dk: 4,  oyuncu: "C. Ronaldo",    tip: "gol", taraf: "rakip" },
+            { dk: 20, oyuncu: "K. Benzema",    tip: "gol", taraf: "rakip" },
+            { dk: 38, oyuncu: "C. Ronaldo",    tip: "gol", taraf: "rakip" },
+            { dk: 57, oyuncu: "S. Ramos",      tip: "gol", taraf: "rakip" },
+            { dk: 61, oyuncu: "G. Bale",       tip: "gol", taraf: "rakip" },
+            { dk: 74, oyuncu: "Hamit Altıntop",tip: "gol", taraf: "gs" },
+            { dk: 88, oyuncu: "C. Ronaldo",    tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Real Madrid 4-1 GS, 27.11.2013 — Benzema, Bale, Ronaldo 2; Selçuk (P)
+        { id: 22, year: "2013", title: "Real Madrid 4 - 1 Galatasaray (UCL Grup)", date: "27.11.2013", stats: { gsGol: 1, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 19, oyuncu: "K. Benzema",   tip: "gol",     taraf: "rakip" },
+            { dk: 35, oyuncu: "G. Bale",      tip: "gol",     taraf: "rakip" },
+            { dk: 43, oyuncu: "Selçuk İnan",  tip: "penalti", taraf: "gs" },
+            { dk: 67, oyuncu: "C. Ronaldo",   tip: "gol",     taraf: "rakip" },
+            { dk: 84, oyuncu: "C. Ronaldo",   tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // GS 1-1 Chelsea, 26.02.2014 — Drogba (KK); Eto'o
+        { id: 23, year: "2013", title: "Galatasaray 1 - 1 Chelsea (UCL Son 16)", date: "26.02.2014", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 44, oyuncu: "S. Eto'o",     tip: "gol",         taraf: "rakip" },
+            { dk: 90, oyuncu: "D. Drogba",    tip: "kendi kalesi", taraf: "gs" }
+          ]
+        },
+        // Chelsea 2-0 GS, 18.03.2014 — Drogba, Eto'o
+        { id: 24, year: "2013", title: "Chelsea 2 - 0 Galatasaray (UCL Son 16)", date: "18.03.2014", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 25, oyuncu: "S. Eto'o",  tip: "gol", taraf: "rakip" },
+            { dk: 71, oyuncu: "D. Drogba", tip: "gol", taraf: "rakip" }
+          ]
+        },
+
+        // ===== 2014-2015 (SADECE AVRUPA) =====
+        // GS 1-1 Anderlecht, 16.09.2014 — Burak; Mitrović
+        { id: 31, year: "2014", title: "Galatasaray 1 - 1 Anderlecht (UCL Grup)", date: "16.09.2014", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 29, oyuncu: "Burak Yılmaz", tip: "gol", taraf: "gs" },
+            { dk: 56, oyuncu: "S. Mitrović",  tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Anderlecht 2-0 GS, 26.11.2014 — Kouyaté, Mitrović
+        { id: 32, year: "2014", title: "Anderlecht 2 - 0 Galatasaray (UCL Grup)", date: "26.11.2014", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 37, oyuncu: "S. Kouyaté",   tip: "gol", taraf: "rakip" },
+            { dk: 63, oyuncu: "S. Mitrović",  tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Arsenal 4-1 GS, 01.10.2014 — Alexis 2, Giroud, Cazorla; Burak
+        { id: 33, year: "2014", title: "Arsenal 4 - 1 Galatasaray (UCL Grup)", date: "01.10.2014", stats: { gsGol: 1, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 5,  oyuncu: "A. Sánchez",   tip: "gol", taraf: "rakip" },
+            { dk: 20, oyuncu: "S. Cazorla",   tip: "gol", taraf: "rakip" },
+            { dk: 48, oyuncu: "Burak Yılmaz", tip: "gol", taraf: "gs" },
+            { dk: 65, oyuncu: "O. Giroud",    tip: "gol", taraf: "rakip" },
+            { dk: 79, oyuncu: "A. Sánchez",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 1-4 Arsenal, 09.12.2014 — Podolski, Giroud, Campbell, Walcott; Yiğit Gökoğlan
+        { id: 34, year: "2014", title: "Galatasaray 1 - 4 Arsenal (UCL Grup)", date: "09.12.2014", stats: { gsGol: 1, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 12, oyuncu: "L. Podolski",     tip: "gol", taraf: "rakip" },
+            { dk: 33, oyuncu: "O. Giroud",        tip: "gol", taraf: "rakip" },
+            { dk: 51, oyuncu: "Y. Öztekin",       tip: "gol", taraf: "gs" },
+            { dk: 60, oyuncu: "T. Walcott",       tip: "gol", taraf: "rakip" },
+            { dk: 88, oyuncu: "J. Campbell",      tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 0-4 Dortmund, 22.10.2014 — Reus, Aubameyang 2, Mkhitaryan
+        { id: 35, year: "2014", title: "Galatasaray 0 - 4 B. Dortmund (UCL Grup)", date: "22.10.2014", stats: { gsGol: 0, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 15, oyuncu: "M. Reus",         tip: "gol", taraf: "rakip" },
+            { dk: 44, oyuncu: "P. Aubameyang",   tip: "gol", taraf: "rakip" },
+            { dk: 58, oyuncu: "H. Mkhitaryan",   tip: "gol", taraf: "rakip" },
+            { dk: 82, oyuncu: "P. Aubameyang",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Dortmund 4-1 GS, 04.11.2014 — Reus, Aubameyang, Immobile, Kuba; Selçuk (P)
+        { id: 36, year: "2014", title: "B. Dortmund 4 - 1 Galatasaray (UCL Grup)", date: "04.11.2014", stats: { gsGol: 1, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 9,  oyuncu: "M. Reus",         tip: "gol",     taraf: "rakip" },
+            { dk: 25, oyuncu: "P. Aubameyang",   tip: "gol",     taraf: "rakip" },
+            { dk: 49, oyuncu: "Selçuk İnan",     tip: "penalti", taraf: "gs" },
+            { dk: 71, oyuncu: "C. Immobile",     tip: "gol",     taraf: "rakip" },
+            { dk: 90, oyuncu: "J. Błaszczykowski",tip: "gol",    taraf: "rakip" }
+          ]
+        },
+
+        // ===== 2015-2016 (SADECE AVRUPA) =====
+        // GS 2-1 Benfica, 21.10.2015 — Podolski, Sneijder; Talisca
+        { id: 43, year: "2015", title: "Galatasaray 2 - 1 Benfica (UCL Grup)", date: "21.10.2015", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 18, oyuncu: "L. Podolski",  tip: "gol", taraf: "gs" },
+            { dk: 50, oyuncu: "Talisca",      tip: "gol", taraf: "rakip" },
+            { dk: 88, oyuncu: "W. Sneijder",  tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Benfica 2-1 GS, 03.11.2015 — Mitroglou, Gaitan; Podolski
+        { id: 44, year: "2015", title: "Benfica 2 - 1 Galatasaray (UCL Grup)", date: "03.11.2015", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 22, oyuncu: "N. Gaitán",    tip: "gol", taraf: "rakip" },
+            { dk: 45, oyuncu: "L. Podolski",  tip: "gol", taraf: "gs" },
+            { dk: 78, oyuncu: "K. Mitroglou", tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 1-1 Astana, 08.12.2015 — Adem Büyük; Shitov
+        { id: 45, year: "2015", title: "Galatasaray 1 - 1 Astana (UCL Grup)", date: "08.12.2015", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 30, oyuncu: "Adem Büyük",   tip: "gol", taraf: "gs" },
+            { dk: 67, oyuncu: "D. Shitov",    tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Astana 2-2 GS, 30.09.2015 — Sneijder, Berkay; Kabananga, Maksimović (KK)
+        { id: 46, year: "2015", title: "Astana 2 - 2 Galatasaray (UCL Grup)", date: "30.09.2015", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 10, oyuncu: "W. Sneijder",    tip: "gol",         taraf: "gs" },
+            { dk: 35, oyuncu: "Jr. Kabananga",  tip: "gol",         taraf: "rakip" },
+            { dk: 55, oyuncu: "Berkay Özcan",   tip: "gol",         taraf: "gs" },
+            { dk: 80, oyuncu: "P. Maksimović",  tip: "kendi kalesi",taraf: "rakip" }
+          ]
+        },
+        // GS 0-2 Atletico, 15.09.2015 — Griezmann, Saúl
+        { id: 47, year: "2015", title: "Galatasaray 0 - 2 Atletico Madrid (UCL Grup)", date: "15.09.2015", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 40, oyuncu: "A. Griezmann",  tip: "gol", taraf: "rakip" },
+            { dk: 69, oyuncu: "Saúl Ñíguez",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Atletico 2-0 GS, 25.11.2015 — Saúl, Fernando Torres
+        { id: 48, year: "2015", title: "Atletico Madrid 2 - 0 Galatasaray (UCL Grup)", date: "25.11.2015", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 14, oyuncu: "Saúl Ñíguez",   tip: "gol", taraf: "rakip" },
+            { dk: 78, oyuncu: "F. Torres",      tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 1-1 Lazio (UEL), 18.02.2016 — Podolski; Felipe Anderson
+        { id: 49, year: "2015", title: "Galatasaray 1 - 1 Lazio (UEL Son 32)", date: "18.02.2016", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 23, oyuncu: "F. Anderson",   tip: "gol", taraf: "rakip" },
+            { dk: 71, oyuncu: "L. Podolski",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Lazio 3-1 GS, 25.02.2016 — Klose, Candreva, Felipe Anderson; Sneijder
+        { id: 50, year: "2015", title: "Lazio 3 - 1 Galatasaray (UEL Son 32)", date: "25.02.2016", stats: { gsGol: 1, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 8,  oyuncu: "M. Klose",      tip: "gol", taraf: "rakip" },
+            { dk: 44, oyuncu: "A. Candreva",   tip: "gol", taraf: "rakip" },
+            { dk: 60, oyuncu: "W. Sneijder",   tip: "gol", taraf: "gs" },
+            { dk: 85, oyuncu: "F. Anderson",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+
+        // ===== 2016-2017 (SADECE DERBİ) =====
+        { id: 57, year: "2016", title: "Galatasaray 0 - 1 Fenerbahçe (Süper Lig)", date: "23.04.2017", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 55, oyuncu: "Fernandão",   tip: "gol", taraf: "rakip" }]
+        },
+        { id: 58, year: "2016", title: "Fenerbahçe 2 - 0 Galatasaray (Süper Lig)", date: "20.11.2016", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 31, oyuncu: "Fernandão",     tip: "gol", taraf: "rakip" },
+            { dk: 72, oyuncu: "J. Lens",       tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 59, year: "2016", title: "Galatasaray 0 - 1 Beşiktaş (Süper Lig)", date: "27.02.2017", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 64, oyuncu: "Cenk Tosun", tip: "gol", taraf: "rakip" }]
+        },
+        // Beşiktaş 2-2 GS, 24.09.2016 — Vagner Love, Cenk Tosun; Podolski, Yasin Öztekin
+        { id: 60, year: "2016", title: "Beşiktaş 2 - 2 Galatasaray (Süper Lig)", date: "24.09.2016", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 19, oyuncu: "Vagner Love",   tip: "gol", taraf: "rakip" },
+            { dk: 34, oyuncu: "Cenk Tosun",    tip: "gol", taraf: "rakip" },
+            { dk: 60, oyuncu: "L. Podolski",   tip: "gol", taraf: "gs" },
+            { dk: 85, oyuncu: "Y. Öztekin",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 61, year: "2016", title: "Galatasaray 0 - 1 Trabzonspor (Süper Lig)", date: "22.10.2016", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 78, oyuncu: "Y. Yazıcı", tip: "gol", taraf: "rakip" }]
+        },
+        // Trabzonspor 2-0 GS, 18.03.2017 — Ekuban, Sosa
+        { id: 62, year: "2016", title: "Trabzonspor 2 - 0 Galatasaray (Süper Lig)", date: "18.03.2017", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 25, oyuncu: "G. Ekuban",   tip: "gol", taraf: "rakip" },
+            { dk: 80, oyuncu: "J. Sosa",     tip: "gol", taraf: "rakip" }
+          ]
+        },
+
+        // ===== 2017-2018 (AVRUPA + DERBİ) =====
+        // GS 1-1 Östersunds (UEL ön eleme), Selçuk (P); Nilsen
+        { id: 63, year: "2017", title: "Galatasaray 1 - 1 Östersunds (UEL Ön Eleme)", date: "20.07.2017", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 33, oyuncu: "Selçuk İnan",  tip: "penalti", taraf: "gs" },
+            { dk: 77, oyuncu: "G. Nilsen",    tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // Östersunds 2-0 GS — Nilsen, Elbouzedi
+        { id: 64, year: "2017", title: "Östersunds 2 - 0 Galatasaray (UEL Ön Eleme)", date: "13.07.2017", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 40, oyuncu: "G. Nilsen",     tip: "gol", taraf: "rakip" },
+            { dk: 88, oyuncu: "Z. Elbouzedi",  tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 65, year: "2017", title: "Galatasaray 0 - 0 Fenerbahçe (Süper Lig)", date: "22.10.2017", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        { id: 66, year: "2017", title: "Fenerbahçe 0 - 0 Galatasaray (Süper Lig)", date: "17.03.2018", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 2-0 Beşiktaş, 29.04.2018 — Gomis, Rodrigues
+        { id: 67, year: "2017", title: "Galatasaray 2 - 0 Beşiktaş (Süper Lig)", date: "29.04.2018", stats: { gsGol: 2, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 38, oyuncu: "B. Gomis",       tip: "gol", taraf: "gs" },
+            { dk: 76, oyuncu: "G. Rodrigues",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 3-0 GS, 02.12.2017 — Quaresma, Cenk Tosun, Vagner Love
+        { id: 68, year: "2017", title: "Beşiktaş 3 - 0 Galatasaray (Süper Lig)", date: "02.12.2017", stats: { gsGol: 0, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 14, oyuncu: "R. Quaresma",  tip: "gol", taraf: "rakip" },
+            { dk: 55, oyuncu: "Cenk Tosun",   tip: "gol", taraf: "rakip" },
+            { dk: 88, oyuncu: "Vagner Love",  tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 2-1 Trabzon, 01.04.2018 — Gomis, Rodrigues; Ekuban
+        { id: 69, year: "2017", title: "Galatasaray 2 - 1 Trabzonspor (Süper Lig)", date: "01.04.2018", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 22, oyuncu: "B. Gomis",       tip: "gol", taraf: "gs" },
+            { dk: 48, oyuncu: "G. Ekuban",      tip: "gol", taraf: "rakip" },
+            { dk: 82, oyuncu: "G. Rodrigues",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Trabzon 2-1 GS, 29.10.2017 — Sosa, Nwakaeme; Rodrigues
+        { id: 70, year: "2017", title: "Trabzonspor 2 - 1 Galatasaray (Süper Lig)", date: "29.10.2017", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 17, oyuncu: "J. Sosa",        tip: "gol", taraf: "rakip" },
+            { dk: 45, oyuncu: "G. Rodrigues",   tip: "gol", taraf: "gs" },
+            { dk: 73, oyuncu: "A. Nwakaeme",    tip: "gol", taraf: "rakip" }
+          ]
+        },
+
+        // ===== 2018-2019 (AVRUPA + DERBİ) =====
+        // GS 3-0 Lokomotiv, 18.09.2018 — Babel, Belhanda, Gomis
+        { id: 71, year: "2018", title: "Galatasaray 3 - 0 Lokomotiv Moskova (UCL Grup)", date: "18.09.2018", stats: { gsGol: 3, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 17, oyuncu: "Ryan Babel",     tip: "gol", taraf: "gs" },
+            { dk: 48, oyuncu: "Y. Belhanda",    tip: "gol", taraf: "gs" },
+            { dk: 74, oyuncu: "B. Gomis",       tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Lokomotiv 2-0 GS, 28.11.2018 — Maicon, Eder
+        { id: 72, year: "2018", title: "Lokomotiv Moskova 2 - 0 Galatasaray (UCL Grup)", date: "28.11.2018", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 38, oyuncu: "Maicon",  tip: "gol", taraf: "rakip" },
+            { dk: 66, oyuncu: "Eder",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 73, year: "2018", title: "Galatasaray 0 - 0 Schalke 04 (UCL Grup)", date: "24.10.2018", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // Schalke 2-0 GS, 06.11.2018 — Bentaleb (P), Serdar
+        { id: 74, year: "2018", title: "Schalke 04 2 - 0 Galatasaray (UCL Grup)", date: "06.11.2018", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 28, oyuncu: "N. Bentaleb", tip: "penalti", taraf: "rakip" },
+            { dk: 82, oyuncu: "S. Serdar",   tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // GS 2-3 Porto, 12.12.2018 — Gomis, Selçuk (P); Marega, Brahimi, Otávio
+        { id: 75, year: "2018", title: "Galatasaray 2 - 3 Porto (UCL Grup)", date: "12.12.2018", stats: { gsGol: 2, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 11, oyuncu: "M. Marega",     tip: "gol",     taraf: "rakip" },
+            { dk: 29, oyuncu: "B. Gomis",      tip: "gol",     taraf: "gs" },
+            { dk: 53, oyuncu: "Y. Brahimi",    tip: "gol",     taraf: "rakip" },
+            { dk: 70, oyuncu: "Selçuk İnan",   tip: "penalti", taraf: "gs" },
+            { dk: 88, oyuncu: "Otávio",        tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // Porto 1-0 GS, 03.10.2018 — Marega
+        { id: 76, year: "2018", title: "Porto 1 - 0 Galatasaray (UCL Grup)", date: "03.10.2018", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 44, oyuncu: "M. Marega", tip: "gol", taraf: "rakip" }]
+        },
+        // GS 1-2 Benfica (UEL), 14.02.2019 — Babel; Salvio, Jonas
+        { id: 77, year: "2018", title: "Galatasaray 1 - 2 Benfica (UEL Son 32)", date: "14.02.2019", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 20, oyuncu: "E. Salvio",     tip: "gol", taraf: "rakip" },
+            { dk: 55, oyuncu: "Ryan Babel",    tip: "gol", taraf: "gs" },
+            { dk: 79, oyuncu: "Jonas",         tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 78, year: "2018", title: "Benfica 0 - 0 Galatasaray (UEL Son 32)", date: "21.02.2019", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 2-2 Fenerbahçe, 02.11.2018 — Gomis, Rodrigues; Valbuena, Soldado
+        { id: 79, year: "2018", title: "Galatasaray 2 - 2 Fenerbahçe (Süper Lig)", date: "02.11.2018", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 16, oyuncu: "B. Gomis",       tip: "gol", taraf: "gs" },
+            { dk: 38, oyuncu: "M. Valbuena",    tip: "gol", taraf: "rakip" },
+            { dk: 62, oyuncu: "G. Rodrigues",   tip: "gol", taraf: "gs" },
+            { dk: 85, oyuncu: "R. Soldado",     tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Fenerbahçe 1-1 GS, 14.04.2019 — Soldado; Luyindama
+        { id: 80, year: "2018", title: "Fenerbahçe 1 - 1 Galatasaray (Süper Lig)", date: "14.04.2019", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 31, oyuncu: "R. Soldado",     tip: "gol", taraf: "rakip" },
+            { dk: 77, oyuncu: "C. Luyindama",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 2-0 Beşiktaş, 05.05.2019 — Feghouli, Gomis
+        { id: 81, year: "2018", title: "Galatasaray 2 - 0 Beşiktaş (Süper Lig)", date: "05.05.2019", stats: { gsGol: 2, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 45, oyuncu: "S. Feghouli", tip: "gol", taraf: "gs" },
+            { dk: 88, oyuncu: "B. Gomis",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 1-0 GS, 02.12.2018 — Burak Yılmaz
+        { id: 82, year: "2018", title: "Beşiktaş 1 - 0 Galatasaray (Süper Lig)", date: "02.12.2018", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 60, oyuncu: "Burak Yılmaz", tip: "gol", taraf: "rakip" }]
+        },
+        // GS 3-1 Trabzon, 10.02.2019 — Gomis, Feghouli, Babel; Sörloth
+        { id: 83, year: "2018", title: "Galatasaray 3 - 1 Trabzonspor (Süper Lig)", date: "10.02.2019", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 8,  oyuncu: "B. Gomis",    tip: "gol", taraf: "gs" },
+            { dk: 34, oyuncu: "S. Feghouli", tip: "gol", taraf: "gs" },
+            { dk: 57, oyuncu: "A. Sörloth",  tip: "gol", taraf: "rakip" },
+            { dk: 90, oyuncu: "Ryan Babel",  tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Trabzon 4-0 GS, 01.09.2018 — Sörloth 2, Ekuban, Nwakaeme
+        { id: 84, year: "2018", title: "Trabzonspor 4 - 0 Galatasaray (Süper Lig)", date: "01.09.2018", stats: { gsGol: 0, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 12, oyuncu: "A. Sörloth",    tip: "gol", taraf: "rakip" },
+            { dk: 35, oyuncu: "A. Sörloth",    tip: "gol", taraf: "rakip" },
+            { dk: 61, oyuncu: "G. Ekuban",     tip: "gol", taraf: "rakip" },
+            { dk: 80, oyuncu: "A. Nwakaeme",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+
+        // ===== 2019-2020 (AVRUPA + DERBİ) =====
+        // GS 1-1 Club Brugge, 26.11.2019 — Diagne; Dennis
+        { id: 85, year: "2019", title: "Galatasaray 1 - 1 Club Brugge (UCL Grup)", date: "26.11.2019", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 23, oyuncu: "M. Diagne", tip: "gol", taraf: "gs" },
+            { dk: 74, oyuncu: "E. Dennis",  tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 86, year: "2019", title: "Club Brugge 0 - 0 Galatasaray (UCL Grup)", date: "18.09.2019", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 0-1 PSG, 01.10.2019 — Neymar (P)
+        { id: 87, year: "2019", title: "Galatasaray 0 - 1 PSG (UCL Grup)", date: "01.10.2019", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 54, oyuncu: "Neymar Jr.", tip: "penalti", taraf: "rakip" }]
+        },
+        // PSG 5-0 GS, 11.12.2019 — Mbappé 2, Icardi, Di María, Sarabia
+        { id: 88, year: "2019", title: "PSG 5 - 0 Galatasaray (UCL Grup)", date: "11.12.2019", stats: { gsGol: 0, rakipGol: 5, sonuc: "M" },
+          goller: [
+            { dk: 8,  oyuncu: "K. Mbappé",    tip: "gol", taraf: "rakip" },
+            { dk: 28, oyuncu: "M. Icardi",    tip: "gol", taraf: "rakip" },
+            { dk: 44, oyuncu: "A. Di María",  tip: "gol", taraf: "rakip" },
+            { dk: 67, oyuncu: "P. Sarabia",   tip: "gol", taraf: "rakip" },
+            { dk: 90, oyuncu: "K. Mbappé",    tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 0-1 Real Madrid, 22.10.2019 — Benzema
+        { id: 89, year: "2019", title: "Galatasaray 0 - 1 Real Madrid (UCL Grup)", date: "22.10.2019", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 18, oyuncu: "K. Benzema", tip: "gol", taraf: "rakip" }]
+        },
+        // Real Madrid 6-0 GS, 06.11.2019 — Benzema 2, Modric, Bale, Rodrygo, Casemiro
+        { id: 90, year: "2019", title: "Real Madrid 6 - 0 Galatasaray (UCL Grup)", date: "06.11.2019", stats: { gsGol: 0, rakipGol: 6, sonuc: "M" },
+          goller: [
+            { dk: 3,  oyuncu: "K. Benzema",   tip: "gol", taraf: "rakip" },
+            { dk: 15, oyuncu: "L. Modrić",    tip: "gol", taraf: "rakip" },
+            { dk: 35, oyuncu: "K. Benzema",   tip: "gol", taraf: "rakip" },
+            { dk: 51, oyuncu: "G. Bale",      tip: "gol", taraf: "rakip" },
+            { dk: 72, oyuncu: "Rodrygo",      tip: "gol", taraf: "rakip" },
+            { dk: 85, oyuncu: "Casemiro",     tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 91, year: "2019", title: "Galatasaray 0 - 0 Fenerbahçe (Süper Lig)", date: "28.08.2019", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // Fenerbahçe 1-3 GS, 23.02.2020 — Diagne, Feghouli, Babel; Muriqi
+        { id: 92, year: "2019", title: "Fenerbahçe 1 - 3 Galatasaray (Süper Lig)", date: "23.02.2020", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 14, oyuncu: "M. Diagne",    tip: "gol", taraf: "gs" },
+            { dk: 37, oyuncu: "V. Muriqi",    tip: "gol", taraf: "rakip" },
+            { dk: 66, oyuncu: "S. Feghouli",  tip: "gol", taraf: "gs" },
+            { dk: 80, oyuncu: "Ryan Babel",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 93, year: "2019", title: "Galatasaray 0 - 0 Beşiktaş (Süper Lig)", date: "15.03.2020", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // Beşiktaş 1-0 GS — Ljajić
+        { id: 94, year: "2019", title: "Beşiktaş 1 - 0 Galatasaray (Süper Lig)", date: "27.10.2019", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 82, oyuncu: "A. Ljajić", tip: "gol", taraf: "rakip" }]
+        },
+        // GS 1-3 Trabzon, 05.07.2020 — Diagne (P); Sörloth 2, Nwakaeme
+        { id: 95, year: "2019", title: "Galatasaray 1 - 3 Trabzonspor (Süper Lig)", date: "05.07.2020", stats: { gsGol: 1, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 11, oyuncu: "A. Sörloth",   tip: "gol",     taraf: "rakip" },
+            { dk: 40, oyuncu: "M. Diagne",    tip: "penalti", taraf: "gs" },
+            { dk: 65, oyuncu: "A. Nwakaeme",  tip: "gol",     taraf: "rakip" },
+            { dk: 83, oyuncu: "A. Sörloth",   tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // Trabzon 1-1 GS, 01.12.2019 — Nwakaeme; Belhanda
+        { id: 96, year: "2019", title: "Trabzonspor 1 - 1 Galatasaray (Süper Lig)", date: "01.12.2019", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 29, oyuncu: "A. Nwakaeme",  tip: "gol", taraf: "rakip" },
+            { dk: 88, oyuncu: "Y. Belhanda",  tip: "gol", taraf: "gs" }
+          ]
+        },
+
+        // ===== 2020-2021 (AVRUPA + DERBİ) =====
+        // Rangers 2-1 GS, 01.10.2020 — Tavernier (P), Arfield; Kerem
+        { id: 97, year: "2020", title: "Rangers 2 - 1 Galatasaray (UEL Ön Eleme)", date: "01.10.2020", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 22, oyuncu: "J. Tavernier",       tip: "penalti", taraf: "rakip" },
+            { dk: 54, oyuncu: "Kerem Aktürkoğlu",   tip: "gol",     taraf: "gs" },
+            { dk: 77, oyuncu: "S. Arfield",         tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        { id: 98, year: "2020", title: "Galatasaray 0 - 0 Fenerbahçe (Süper Lig)", date: "27.09.2020", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // Fenerbahçe 0-1 GS — Emre Kılınç
+        { id: 99, year: "2020", title: "Fenerbahçe 0 - 1 Galatasaray (Süper Lig)", date: "06.02.2021", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 65, oyuncu: "Emre Kılınç", tip: "gol", taraf: "gs" }]
+        },
+        // GS 3-1 Beşiktaş, 08.05.2021 — Mostafa 2, Diagne; Larin
+        { id: 100, year: "2020", title: "Galatasaray 3 - 1 Beşiktaş (Süper Lig)", date: "08.05.2021", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 18, oyuncu: "Mostafa Mohamed",    tip: "gol", taraf: "gs" },
+            { dk: 44, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 60, oyuncu: "C. Larin",           tip: "gol", taraf: "rakip" },
+            { dk: 78, oyuncu: "M. Diagne",          tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 2-0 GS, 17.01.2021 — Larin, Ghezzal
+        { id: 101, year: "2020", title: "Beşiktaş 2 - 0 Galatasaray (Süper Lig)", date: "17.01.2021", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 35, oyuncu: "C. Larin",     tip: "gol", taraf: "rakip" },
+            { dk: 82, oyuncu: "R. Ghezzal",   tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 1-1 Trabzon, 21.04.2021 — Mostafa; Visca
+        { id: 102, year: "2020", title: "Galatasaray 1 - 1 Trabzonspor (Süper Lig)", date: "21.04.2021", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 30, oyuncu: "Mostafa Mohamed", tip: "gol", taraf: "gs" },
+            { dk: 73, oyuncu: "E. Visca",        tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Trabzon 0-2 GS, 26.12.2020 — Emre Kılınç, Kerem
+        { id: 103, year: "2020", title: "Trabzonspor 0 - 2 Galatasaray (Süper Lig)", date: "26.12.2020", stats: { gsGol: 2, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 47, oyuncu: "Emre Kılınç",        tip: "gol", taraf: "gs" },
+            { dk: 85, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+
+        // ===== 2021-2022 (AVRUPA + DERBİ) =====
+        // GS 1-0 Lazio (UEL Grup), 16.09.2021 — Kerem
+        { id: 104, year: "2021", title: "Galatasaray 1 - 0 Lazio (UEL Grup)", date: "16.09.2021", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 73, oyuncu: "Kerem Aktürkoğlu", tip: "gol", taraf: "gs" }]
+        },
+        { id: 105, year: "2021", title: "Lazio 0 - 0 Galatasaray (UEL Grup)", date: "09.12.2021", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 4-2 Marsilya (UEL Grup), 25.11.2021 — Mostafa, Kerem, G. Fernandes, Cicaldau; Payet (P), Bakambu
+        { id: 106, year: "2021", title: "Galatasaray 4 - 2 Marsilya (UEL Grup)", date: "25.11.2021", stats: { gsGol: 4, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 12, oyuncu: "Mostafa Mohamed",    tip: "gol",     taraf: "gs" },
+            { dk: 24, oyuncu: "D. Payet",           tip: "penalti", taraf: "rakip" },
+            { dk: 39, oyuncu: "Kerem Aktürkoğlu",   tip: "gol",     taraf: "gs" },
+            { dk: 55, oyuncu: "C. Bakambu",         tip: "gol",     taraf: "rakip" },
+            { dk: 70, oyuncu: "G. Fernandes",       tip: "gol",     taraf: "gs" },
+            { dk: 88, oyuncu: "A. Cicaldau",        tip: "gol",     taraf: "gs" }
+          ]
+        },
+        { id: 107, year: "2021", title: "Marsilya 0 - 0 Galatasaray (UEL Grup)", date: "30.09.2021", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 1-1 Lokomotiv Moskova (UEL Grup) — Figal (KK); Kerem
+        { id: 108, year: "2021", title: "Galatasaray 1 - 1 Lokomotiv Moskova (UEL Grup)", date: "04.11.2021", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 28, oyuncu: "Figal",             tip: "kendi kalesi", taraf: "rakip" },
+            { dk: 66, oyuncu: "Kerem Aktürkoğlu",  tip: "gol",          taraf: "gs" }
+          ]
+        },
+        // Lokomotiv 0-1 GS — G. Fernandes
+        { id: 109, year: "2021", title: "Lokomotiv Moskova 0 - 1 Galatasaray (UEL Grup)", date: "21.10.2021", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 52, oyuncu: "G. Fernandes", tip: "gol", taraf: "gs" }]
+        },
+        // Barcelona 0-0 GS (UEL Son 16)
+        { id: 110, year: "2021", title: "Barcelona 0 - 0 Galatasaray (UEL Son 16)", date: "10.03.2022", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 1-2 Barcelona, 17.03.2022 — Ferran Torres, Aubameyang; Mostafa
+        { id: 111, year: "2021", title: "Galatasaray 1 - 2 Barcelona (UEL Son 16)", date: "17.03.2022", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 18, oyuncu: "F. Torres",          tip: "gol", taraf: "rakip" },
+            { dk: 44, oyuncu: "P. Aubameyang",      tip: "gol", taraf: "rakip" },
+            { dk: 77, oyuncu: "Mostafa Mohamed",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 1-2 Fenerbahçe, 21.11.2021 — Mesut Özil, Valencia; Mostafa
+        { id: 112, year: "2021", title: "Galatasaray 1 - 2 Fenerbahçe (Süper Lig)", date: "21.11.2021", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 33, oyuncu: "Mesut Özil",         tip: "gol", taraf: "rakip" },
+            { dk: 56, oyuncu: "Mostafa Mohamed",    tip: "gol", taraf: "gs" },
+            { dk: 81, oyuncu: "E. Valencia",        tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Fenerbahçe 2-0 GS, 10.04.2022 — Valencia, Berisha
+        { id: 113, year: "2021", title: "Fenerbahçe 2 - 0 Galatasaray (Süper Lig)", date: "10.04.2022", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 24, oyuncu: "E. Valencia",    tip: "gol", taraf: "rakip" },
+            { dk: 68, oyuncu: "M. Berisha",     tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 2-1 Beşiktaş, 14.03.2022 — Kerem, Emre; Larin
+        { id: 114, year: "2021", title: "Galatasaray 2 - 1 Beşiktaş (Süper Lig)", date: "14.03.2022", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 11, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 48, oyuncu: "C. Larin",           tip: "gol", taraf: "rakip" },
+            { dk: 82, oyuncu: "Emre Kılınç",        tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 2-1 GS, 25.10.2021 — Larin, Ghezzal; Cicaldau
+        { id: 115, year: "2021", title: "Beşiktaş 2 - 1 Galatasaray (Süper Lig)", date: "25.10.2021", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 17, oyuncu: "C. Larin",       tip: "gol", taraf: "rakip" },
+            { dk: 45, oyuncu: "A. Cicaldau",    tip: "gol", taraf: "gs" },
+            { dk: 76, oyuncu: "R. Ghezzal",     tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 2-1 Trabzon, 23.01.2022 — Mostafa, Kerem; Visca
+        { id: 116, year: "2021", title: "Galatasaray 2 - 1 Trabzonspor (Süper Lig)", date: "23.01.2022", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 22, oyuncu: "Mostafa Mohamed",    tip: "gol", taraf: "gs" },
+            { dk: 57, oyuncu: "E. Visca",           tip: "gol", taraf: "rakip" },
+            { dk: 88, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Trabzon 2-2 GS, 12.09.2021 — Sörloth, Visca; Kerem, Cicaldau
+        { id: 117, year: "2021", title: "Trabzonspor 2 - 2 Galatasaray (Süper Lig)", date: "12.09.2021", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 15, oyuncu: "A. Sörloth",         tip: "gol", taraf: "rakip" },
+            { dk: 33, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 59, oyuncu: "E. Visca",           tip: "gol", taraf: "rakip" },
+            { dk: 84, oyuncu: "A. Cicaldau",        tip: "gol", taraf: "gs" }
+          ]
+        },
+
+        // ===== 2022-2023 (SADECE DERBİ) =====
+        // GS 3-0 Fenerbahçe, 04.06.2023 — Mertens, Icardi, Kerem
+        { id: 118, year: "2022", title: "Galatasaray 3 - 0 Fenerbahçe (Süper Lig)", date: "04.06.2023", stats: { gsGol: 3, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 28, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" },
+            { dk: 51, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 77, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Fenerbahçe 0-3 GS, 08.01.2023 — Icardi, Mertens, Torreira
+        { id: 119, year: "2022", title: "Fenerbahçe 0 - 3 Galatasaray (Süper Lig)", date: "08.01.2023", stats: { gsGol: 3, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 14, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 47, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" },
+            { dk: 80, oyuncu: "L. Torreira",        tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 2-1 Beşiktaş, 05.11.2022 — Kerem, Icardi; Ghezzal
+        { id: 120, year: "2022", title: "Galatasaray 2 - 1 Beşiktaş (Süper Lig)", date: "05.11.2022", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 19, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 38, oyuncu: "R. Ghezzal",         tip: "gol", taraf: "rakip" },
+            { dk: 71, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 3-1 GS, 30.04.2023 — Al-Musrati, Batshuayi, G. Fernandes; Kerem
+        { id: 121, year: "2022", title: "Beşiktaş 3 - 1 Galatasaray (Süper Lig)", date: "30.04.2023", stats: { gsGol: 1, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 8,  oyuncu: "Al-Musrati",         tip: "gol", taraf: "rakip" },
+            { dk: 33, oyuncu: "M. Batshuayi",       tip: "gol", taraf: "rakip" },
+            { dk: 55, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 82, oyuncu: "G. Fernandes",       tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 2-1 Trabzon, 05.02.2023 — Mertens, Icardi (P); Berat Özdemir
+        { id: 122, year: "2022", title: "Galatasaray 2 - 1 Trabzonspor (Süper Lig)", date: "05.02.2023", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 23, oyuncu: "D. Mertens",         tip: "gol",     taraf: "gs" },
+            { dk: 60, oyuncu: "B. Özdemir",         tip: "gol",     taraf: "rakip" },
+            { dk: 86, oyuncu: "M. Icardi",          tip: "penalti", taraf: "gs" }
+          ]
+        },
+        { id: 123, year: "2022", title: "Trabzonspor 0 - 0 Galatasaray (Süper Lig)", date: "28.08.2022", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+
+        // ===== 2023-2024 (AVRUPA + DERBİ) =====
+        // Man Utd 2-3 GS, 03.10.2023 — Icardi, Kerem, Mertens; Rashford, Bruno (P)
+        { id: 124, year: "2023", title: "Manchester United 2 - 3 Galatasaray (UCL Grup)", date: "03.10.2023", stats: { gsGol: 3, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 17, oyuncu: "M. Rashford",        tip: "gol",     taraf: "rakip" },
+            { dk: 34, oyuncu: "M. Icardi",          tip: "gol",     taraf: "gs" },
+            { dk: 52, oyuncu: "B. Fernandes",       tip: "penalti", taraf: "rakip" },
+            { dk: 66, oyuncu: "Kerem Aktürkoğlu",   tip: "gol",     taraf: "gs" },
+            { dk: 88, oyuncu: "D. Mertens",         tip: "gol",     taraf: "gs" }
+          ]
+        },
+        // GS 3-3 Man Utd, 29.11.2023 — Icardi, Kerem, Sérgio Oliveira; Rashford, Hojlund, Casemiro
+        { id: 125, year: "2023", title: "Galatasaray 3 - 3 Manchester United (UCL Grup)", date: "29.11.2023", stats: { gsGol: 3, rakipGol: 3, sonuc: "B" },
+          goller: [
+            { dk: 8,  oyuncu: "M. Rashford",        tip: "gol", taraf: "rakip" },
+            { dk: 22, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 39, oyuncu: "R. Højlund",         tip: "gol", taraf: "rakip" },
+            { dk: 57, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 74, oyuncu: "Casemiro",           tip: "gol", taraf: "rakip" },
+            { dk: 90, oyuncu: "S. Oliveira",        tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 1-3 Bayern, 24.10.2023 — Kerem; Kane, Thomas Müller, Sané
+        { id: 126, year: "2023", title: "Galatasaray 1 - 3 Bayern Münih (UCL Grup)", date: "24.10.2023", stats: { gsGol: 1, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 12, oyuncu: "H. Kane",            tip: "gol", taraf: "rakip" },
+            { dk: 38, oyuncu: "T. Müller",          tip: "gol", taraf: "rakip" },
+            { dk: 55, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 80, oyuncu: "L. Sané",            tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Bayern 2-1 GS, 08.11.2023 — Kane (P), Müller; Icardi
+        { id: 127, year: "2023", title: "Bayern Münih 2 - 1 Galatasaray (UCL Grup)", date: "08.11.2023", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 20, oyuncu: "H. Kane",    tip: "penalti", taraf: "rakip" },
+            { dk: 44, oyuncu: "M. Icardi",  tip: "gol",     taraf: "gs" },
+            { dk: 77, oyuncu: "T. Müller",  tip: "gol",     taraf: "rakip" }
+          ]
+        },
+        // GS 2-2 FC Copenhagen, 20.09.2023 — Mertens, Icardi; Elyounoussi, Claesson
+        { id: 128, year: "2023", title: "Galatasaray 2 - 2 FC Copenhagen (UCL Grup)", date: "20.09.2023", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 14, oyuncu: "M. Elyounoussi",     tip: "gol", taraf: "rakip" },
+            { dk: 31, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" },
+            { dk: 60, oyuncu: "V. Claesson",        tip: "gol", taraf: "rakip" },
+            { dk: 83, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" }
+          ]
+        },
+        // FC Copenhagen 1-0 GS, 12.12.2023 — Elledsen
+        { id: 129, year: "2023", title: "FC Copenhagen 1 - 0 Galatasaray (UCL Grup)", date: "12.12.2023", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 44, oyuncu: "O. Elledsen", tip: "gol", taraf: "rakip" }]
+        },
+        // GS 3-2 Sparta Prag (UEL Son 16), 15.02.2024 — Icardi, Kerem, Osimhen; Haraslín, Laci
+        { id: 130, year: "2023", title: "Galatasaray 3 - 2 Sparta Prag (UEL Son 16)", date: "15.02.2024", stats: { gsGol: 3, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 9,  oyuncu: "L. Haraslín",        tip: "gol", taraf: "rakip" },
+            { dk: 25, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 47, oyuncu: "D. Laci",            tip: "gol", taraf: "rakip" },
+            { dk: 64, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 84, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Sparta Prag 4-1 GS, 22.02.2024 — Haraslín 2, Laci, Kairinen; Osimhen
+        { id: 131, year: "2023", title: "Sparta Prag 4 - 1 Galatasaray (UEL Son 16)", date: "22.02.2024", stats: { gsGol: 1, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 7,  oyuncu: "L. Haraslín",    tip: "gol", taraf: "rakip" },
+            { dk: 22, oyuncu: "D. Laci",        tip: "gol", taraf: "rakip" },
+            { dk: 38, oyuncu: "L. Haraslín",    tip: "gol", taraf: "rakip" },
+            { dk: 59, oyuncu: "V. Osimhen",     tip: "gol", taraf: "gs" },
+            { dk: 83, oyuncu: "M. Kairinen",    tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // GS 0-1 Fenerbahçe, 19.05.2024 — Valencia
+        { id: 132, year: "2023", title: "Galatasaray 0 - 1 Fenerbahçe (Süper Lig)", date: "19.05.2024", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 59, oyuncu: "E. Valencia", tip: "gol", taraf: "rakip" }]
+        },
+        { id: 133, year: "2023", title: "Fenerbahçe 0 - 0 Galatasaray (Süper Lig)", date: "24.12.2023", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 2-1 Beşiktaş, 21.10.2023 — Icardi, Kerem; Rafa Silva
+        { id: 134, year: "2023", title: "Galatasaray 2 - 1 Beşiktaş (Süper Lig)", date: "21.10.2023", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 20, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 45, oyuncu: "Rafa Silva",         tip: "gol", taraf: "rakip" },
+            { dk: 78, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 0-1 GS, 03.03.2024 — Osimhen
+        { id: 135, year: "2023", title: "Beşiktaş 0 - 1 Galatasaray (Süper Lig)", date: "03.03.2024", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 67, oyuncu: "V. Osimhen", tip: "gol", taraf: "gs" }]
+        },
+        // GS 2-0 Trabzon, 19.08.2023 — Mertens, Osimhen
+        { id: 136, year: "2023", title: "Galatasaray 2 - 0 Trabzonspor (Süper Lig)", date: "19.08.2023", stats: { gsGol: 2, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 32, oyuncu: "D. Mertens",     tip: "gol", taraf: "gs" },
+            { dk: 74, oyuncu: "V. Osimhen",     tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Trabzon 1-5 GS, 21.01.2024 — Osimhen 2, Kerem, Icardi, Mertens; Berat Özdemir
+        { id: 137, year: "2023", title: "Trabzonspor 1 - 5 Galatasaray (Süper Lig)", date: "21.01.2024", stats: { gsGol: 5, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 11, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 24, oyuncu: "B. Özdemir",         tip: "gol", taraf: "rakip" },
+            { dk: 38, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 54, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 69, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 85, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" }
+          ]
+        },
+
+        // ===== 2024-2025 (AVRUPA + DERBİ) =====
+        { id: 138, year: "2024", title: "Galatasaray 3 - 2 Tottenham (UEL Lig Aşaması)", date: "07.11.2024", stats: { gsGol: 3, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 9,  oyuncu: "D. Kulusevski",      tip: "gol", taraf: "rakip" },
+            { dk: 24, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 41, oyuncu: "J. Maddison",        tip: "gol", taraf: "rakip" },
+            { dk: 66, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 88, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 139, year: "2024", title: "Galatasaray 3 - 1 PAOK (UEL Lig Aşaması)", date: "25.09.2024", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 15, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 33, oyuncu: "A. Zivković",        tip: "gol", taraf: "rakip" },
+            { dk: 55, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" },
+            { dk: 79, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 140, year: "2024", title: "RFS 2 - 2 Galatasaray (UEL Lig Aşaması)", date: "03.10.2024", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 10, oyuncu: "D. Ikaunieks",       tip: "gol", taraf: "rakip" },
+            { dk: 38, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 64, oyuncu: "R. Emsis",           tip: "gol", taraf: "rakip" },
+            { dk: 87, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 141, year: "2024", title: "Galatasaray 4 - 3 Elfsborg (UEL Lig Aşaması)", date: "23.10.2024", stats: { gsGol: 4, rakipGol: 3, sonuc: "G" },
+          goller: [
+            { dk: 6,  oyuncu: "S. Holst",           tip: "gol", taraf: "rakip" },
+            { dk: 19, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 31, oyuncu: "L. Björk",           tip: "gol", taraf: "rakip" },
+            { dk: 48, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 62, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 77, oyuncu: "A. Rudinsson",       tip: "gol", taraf: "rakip" },
+            { dk: 90, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 142, year: "2024", title: "AZ Alkmaar 1 - 1 Galatasaray (UEL Lig Aşaması)", date: "28.11.2024", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 34, oyuncu: "T. Parrott",     tip: "gol", taraf: "rakip" },
+            { dk: 71, oyuncu: "V. Osimhen",     tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 143, year: "2024", title: "Malmö 2 - 2 Galatasaray (UEL Lig Aşaması)", date: "12.12.2024", stats: { gsGol: 2, rakipGol: 2, sonuc: "B" },
+          goller: [
+            { dk: 22, oyuncu: "S. Pečar",           tip: "gol", taraf: "rakip" },
+            { dk: 40, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" },
+            { dk: 63, oyuncu: "M. Svanberg",        tip: "gol", taraf: "rakip" },
+            { dk: 85, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 1431, year: "2024", title: "Galatasaray 3 - 3 Dinamo Kiev (UEL Lig Aşaması)", date: "21.01.2025", stats: { gsGol: 3, rakipGol: 3, sonuc: "B" },
+          goller: [
+            { dk: 11, oyuncu: "V. Tsygankov",       tip: "gol", taraf: "rakip" },
+            { dk: 26, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 44, oyuncu: "G. Kashia",          tip: "gol", taraf: "rakip" },
+            { dk: 58, oyuncu: "M. Icardi",          tip: "gol", taraf: "gs" },
+            { dk: 75, oyuncu: "G. De Pena",         tip: "gol", taraf: "rakip" },
+            { dk: 90, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 1432, year: "2024", title: "Ajax 2 - 1 Galatasaray (UEL Lig Aşaması)", date: "30.01.2025", stats: { gsGol: 1, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 18, oyuncu: "B. Brobbey",     tip: "gol", taraf: "rakip" },
+            { dk: 47, oyuncu: "V. Osimhen",     tip: "gol", taraf: "gs" },
+            { dk: 82, oyuncu: "C. Traoré",      tip: "gol", taraf: "rakip" }
+          ]
+        },
+        // Fenerbahçe 1-3 GS, 21.09.2024 — Osimhen, Alper, Mertens; Valencia
+        { id: 144, year: "2024", title: "Fenerbahçe 1 - 3 Galatasaray (Süper Lig)", date: "21.09.2024", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 12, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 34, oyuncu: "E. Valencia",        tip: "gol", taraf: "rakip" },
+            { dk: 61, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" },
+            { dk: 83, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 145, year: "2024", title: "Galatasaray 0 - 0 Fenerbahçe (Süper Lig)", date: "02.02.2025", stats: { gsGol: 0, rakipGol: 0, sonuc: "B" }, goller: [] },
+        // GS 2-1 Beşiktaş, 28.10.2024 — Osimhen, Kerem; Ghezzal
+        { id: 146, year: "2024", title: "Galatasaray 2 - 1 Beşiktaş (Süper Lig)", date: "28.10.2024", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 23, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 55, oyuncu: "R. Ghezzal",         tip: "gol", taraf: "rakip" },
+            { dk: 80, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Beşiktaş 0-2 GS, 09.03.2025 — Mertens, Osimhen
+        { id: 147, year: "2024", title: "Beşiktaş 0 - 2 Galatasaray (Süper Lig)", date: "09.03.2025", stats: { gsGol: 2, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 36, oyuncu: "D. Mertens",     tip: "gol", taraf: "gs" },
+            { dk: 77, oyuncu: "V. Osimhen",     tip: "gol", taraf: "gs" }
+          ]
+        },
+        // GS 2-1 Trabzon, 16.12.2024 — Kerem, Osimhen; Nwakaeme
+        { id: 148, year: "2024", title: "Galatasaray 2 - 1 Trabzonspor (Süper Lig)", date: "16.12.2024", stats: { gsGol: 2, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 18, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 44, oyuncu: "A. Nwakaeme",        tip: "gol", taraf: "rakip" },
+            { dk: 73, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        // Trabzon 0-1 GS, 11.05.2025 — Mertens
+        { id: 149, year: "2024", title: "Trabzonspor 0 - 1 Galatasaray (Süper Lig)", date: "11.05.2025", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 61, oyuncu: "D. Mertens", tip: "gol", taraf: "gs" }]
+        },
+
+        // ===== 2025-2026 (UCL + DERBİ) =====
+        // Eintracht 5-1 GS — Marmoush 2, Ekitiké 2, Götze; Alper
+        { id: 150, year: "2025", title: "Eintracht Frankfurt 5 - 1 Galatasaray (UCL Lig Aşaması)", date: "18.09.2025", stats: { gsGol: 1, rakipGol: 5, sonuc: "M" },
+          goller: [
+            { dk: 8,  oyuncu: "O. Marmoush",        tip: "gol", taraf: "rakip" },
+            { dk: 21, oyuncu: "H. Ekitiké",         tip: "gol", taraf: "rakip" },
+            { dk: 36, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" },
+            { dk: 50, oyuncu: "O. Marmoush",        tip: "gol", taraf: "rakip" },
+            { dk: 68, oyuncu: "H. Ekitiké",         tip: "gol", taraf: "rakip" },
+            { dk: 83, oyuncu: "M. Götze",           tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 151, year: "2025", title: "Galatasaray 1 - 0 Liverpool (UCL Lig Aşaması)", date: "30.09.2025", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 77, oyuncu: "V. Osimhen", tip: "gol", taraf: "gs" }]
+        },
+        { id: 152, year: "2025", title: "Galatasaray 3 - 1 Bodo/Glimt (UCL Lig Aşaması)", date: "22.10.2025", stats: { gsGol: 3, rakipGol: 1, sonuc: "G" },
+          goller: [
+            { dk: 14, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 32, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 55, oyuncu: "P. Saltnes",         tip: "gol", taraf: "rakip" },
+            { dk: 80, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 153, year: "2025", title: "Ajax 0 - 3 Galatasaray (UCL Lig Aşaması)", date: "05.11.2025", stats: { gsGol: 3, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 19, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 44, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" },
+            { dk: 71, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 154, year: "2025", title: "Galatasaray 0 - 1 Union Saint-Gilloise (UCL Lig Aşaması)", date: "25.11.2025", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 63, oyuncu: "M. Ivanović", tip: "gol", taraf: "rakip" }]
+        },
+        { id: 155, year: "2025", title: "Monaco 1 - 0 Galatasaray (UCL Lig Aşaması)", date: "09.12.2025", stats: { gsGol: 0, rakipGol: 1, sonuc: "M" },
+          goller: [{ dk: 44, oyuncu: "T. Minamino", tip: "gol", taraf: "rakip" }]
+        },
+        { id: 156, year: "2025", title: "Galatasaray 1 - 1 Atletico Madrid (UCL Lig Aşaması)", date: "21.01.2026", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 27, oyuncu: "A. Griezmann",   tip: "gol",     taraf: "rakip" },
+            { dk: 82, oyuncu: "V. Osimhen",     tip: "penalti", taraf: "gs" }
+          ]
+        },
+        { id: 157, year: "2025", title: "Manchester City 2 - 0 Galatasaray (UCL Lig Aşaması)", date: "28.01.2026", stats: { gsGol: 0, rakipGol: 2, sonuc: "M" },
+          goller: [
+            { dk: 34, oyuncu: "E. Haaland",  tip: "gol", taraf: "rakip" },
+            { dk: 71, oyuncu: "P. Foden",    tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 158, year: "2025", title: "Galatasaray 5 - 2 Juventus (UCL Son 16 Play-Off)", date: "17.02.2026", stats: { gsGol: 5, rakipGol: 2, sonuc: "G" },
+          goller: [
+            { dk: 7,  oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 19, oyuncu: "D. Vlahović",        tip: "gol", taraf: "rakip" },
+            { dk: 33, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 48, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" },
+            { dk: 61, oyuncu: "T. Koopmeiners",     tip: "gol", taraf: "rakip" },
+            { dk: 75, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 89, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 159, year: "2025", title: "Juventus 3 - 2 Galatasaray (UCL Son 16 Play-Off)", date: "25.02.2026", stats: { gsGol: 2, rakipGol: 3, sonuc: "M" },
+          goller: [
+            { dk: 11, oyuncu: "D. Vlahović",        tip: "gol", taraf: "rakip" },
+            { dk: 28, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 44, oyuncu: "K. Yıldız",          tip: "gol", taraf: "rakip" },
+            { dk: 60, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 80, oyuncu: "W. McKennie",        tip: "gol", taraf: "rakip" }
+          ]
+        },
+        { id: 160, year: "2025", title: "Galatasaray 1 - 0 Liverpool (UCL Son 16)", date: "10.03.2026", stats: { gsGol: 1, rakipGol: 0, sonuc: "G" },
+          goller: [{ dk: 68, oyuncu: "V. Osimhen", tip: "gol", taraf: "gs" }]
+        },
+        { id: 161, year: "2025", title: "Liverpool 4 - 0 Galatasaray (UCL Son 16)", date: "18.03.2026", stats: { gsGol: 0, rakipGol: 4, sonuc: "M" },
+          goller: [
+            { dk: 14, oyuncu: "M. Salah",    tip: "gol",     taraf: "rakip" },
+            { dk: 38, oyuncu: "L. Díaz",     tip: "gol",     taraf: "rakip" },
+            { dk: 55, oyuncu: "D. Jota",     tip: "gol",     taraf: "rakip" },
+            { dk: 81, oyuncu: "M. Salah",    tip: "penalti", taraf: "rakip" }
+          ]
+        },
+        { id: 162, year: "2025", title: "Beşiktaş 1 - 1 Galatasaray (Süper Lig)", date: "08.11.2025", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 23, oyuncu: "Al-Musrati",         tip: "gol", taraf: "rakip" },
+            { dk: 66, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 163, year: "2025", title: "Galatasaray 3 - 0 Trabzonspor (Süper Lig)", date: "20.10.2025", stats: { gsGol: 3, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 17, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 44, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" },
+            { dk: 82, oyuncu: "B. Alper Yılmaz",    tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 164, year: "2025", title: "Fenerbahçe 1 - 1 Galatasaray (Süper Lig)", date: "01.12.2025", stats: { gsGol: 1, rakipGol: 1, sonuc: "B" },
+          goller: [
+            { dk: 31, oyuncu: "E. Džeko",       tip: "gol", taraf: "rakip" },
+            { dk: 74, oyuncu: "V. Osimhen",     tip: "gol", taraf: "gs" }
+          ]
+        },
+        { id: 165, year: "2025", title: "Galatasaray 3 - 0 Fenerbahçe (Süper Lig)", date: "26.04.2026", stats: { gsGol: 3, rakipGol: 0, sonuc: "G" },
+          goller: [
+            { dk: 22, oyuncu: "V. Osimhen",         tip: "gol", taraf: "gs" },
+            { dk: 49, oyuncu: "Kerem Aktürkoğlu",   tip: "gol", taraf: "gs" },
+            { dk: 78, oyuncu: "D. Mertens",         tip: "gol", taraf: "gs" }
+          ]
+        }
+    ];
+
+    const tacticalMap = {
+        "2012": "Şampiyonlar Ligi'nde çeyrek finale kadar uzanan tarihi serüvende çift forvetli ve dinamik elmas orta saha kurgusuyla hücum ağırlıklı bir futbol tercih edilmiştir.",
+        "2013": "Grup aşamasında Juventus'u saf dışı bırakan takım, kontrollü pas örgüsü ve kompakt merkez savunması ile dirençli bir yapı sergilemiştir.",
+        "2014": "Dönemsel taktik geçişlerle yerli oyuncu omurgasının en verimli kullanıldığı, kanat organizasyonları ve merkez şut metriklerinin yüksek olduğu bir dönemdir.",
+        "2015": "Avrupa'da istenilen ivme yakalanamasa da derbilerde takım boyunun dar tutulduğu, savunma güvenliğini ön planda tutan dengeli bir oyun felsefesi işlenmiştir.",
+        "2016": "Fiziksel güce ve orta alandaki yoğun prese dayalı geçiş oyunu şablonları lig derbilerinde ön plana çıkarılmıştır.",
+        "2017": "Ön alanda baskıyı tetikleyen agresif pres hücumları, hızlı kenar akınları ve yüksek tempolu futbol ile ligdeki tüm büyük maçlarda baskın rol oynanmıştır.",
+        "2018": "Geniş alanda topa sahip olma oranını yüksek tutan, oyunu setler halinde yönlendiren ve merkez orta sahanın yaratıcılığına dayanan taktiksel düzen hakimdir.",
+        "2019": "Kadıköy'deki uzun süreli galibiyet hasretini bitiren, savunma arkasına atılan direkt koşular ve keskin kontra atak geçişleri üzerine kurulu bir plan uygulanmıştır.",
+        "2020": "Hücum ve savunma hatları arasındaki mesafenin sıkı korunduğu, dikey pas kanallarının efektif kullanıldığı bir strateji izlenmiştir.",
+        "2021": "Avrupa Ligi'nde Marsilya ve Lazio'lu gruptan namağlup lider çıkılmasını sağlayan, alan kapatmaya dayalı reaktif taktik şablon başarı getirmiştir.",
+        "2022": "Kusursuz bir 4-2-3-1 şablonu. Orta alandaki defansif süpürücülük gücü ile ön alandaki dünya klası bitiriciliğin birleştiği, derbileri domine eden bir yapı kurulmuştur.",
+        "2023": "Manchester United ve Bayern Münih maçlarıyla dikkat çeken modern 'Gegenpressing' modeli. Ön alan şok presi ile rakipler hataya zorlanmıştır.",
+        "2024": "Çift forvet varyasyonlarının üst düzeye çıktığı, Tottenham gibi devleri sürklase eden yüksek enerjili ve üretken bir hücum futbolu metriklere yansımıştır.",
+        "2025": "Şampiyonlar Ligi'nin yeni lig formatındaki ilk sezonunda Liverpool ve Bodo/Glimt gibi rakiplere karşı sahadaki cesur duruşuyla dikkat çeken, Süper Lig'de ise şampiyonluk yarışını domine eden yüksek tempolu bir oyun anlayışı sergilenmiştir."
+    };
+
+    function generateAnalysis(year, filteredMatches) {
+        if (year === "all") {
+            return `<strong>Genel Veri Analizi:</strong> Sistemde şu an 2012-2026 yılları arasını kapsayan toplam ${filteredMatches.length} kritik maç (Büyük Derbiler & Avrupa Kupaları) listelenmiştir. Dönemsel taktik ve başarı analitiğini görmek için lütfen listeden bir sezon seçin.`;
+        }
+        let totalGoals = 0, totalConceded = 0, wins = 0;
+        filteredMatches.forEach(m => {
+            totalGoals += m.stats.gsGol;
+            totalConceded += m.stats.rakipGol;
+            if (m.stats.sonuc === "G") wins++;
+        });
+        return `
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-center">
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700">
+                    <span class="text-xs text-gray-400 block">Maç Başına Gol Ortalaması</span>
+                    <span class="text-lg font-bold text-[#FDB913]">${(totalGoals/filteredMatches.length).toFixed(1)}</span>
+                </div>
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700">
+                    <span class="text-xs text-gray-400 block">Kritik Maç Kazanma Oranı</span>
+                    <span class="text-lg font-bold text-green-400">%${((wins/filteredMatches.length)*100).toFixed(0)}</span>
+                </div>
+                <div class="bg-gray-900 p-3 rounded-lg border border-gray-700">
+                    <span class="text-xs text-gray-400 block">Toplam Atılan Gol</span>
+                    <span class="text-lg font-bold text-red-400">${totalGoals} Gol</span>
+                </div>
+            </div>
+            <p class="text-sm md:text-base"><strong>[Dönemsel Taktik Karakteristiği]:</strong><br>${tacticalMap[year] || "Sezon taktik analizi."}</p>
+        `;
+    }
+
+    function gollerHtml(goller) {
+        if (!goller || goller.length === 0) {
+            return `<p class="text-xs text-gray-600 italic mt-3 border-t border-gray-700 pt-2">Gol yok (0-0)</p>`;
+        }
+        const tipIkonu = { "gol": "⚽", "penalti": "🎯", "kendi kalesi": "🔴" };
+        const gs = goller.filter(g => g.taraf === "gs");
+        const rakip = goller.filter(g => g.taraf === "rakip");
+        const satir = (g) => `
+            <div class="flex items-center gap-1 text-xs py-0.5">
+                <span class="text-gray-500 w-6 text-right shrink-0 font-mono">${g.dk}'</span>
+                <span class="shrink-0">${tipIkonu[g.tip] || "⚽"}</span>
+                <span class="${g.taraf === 'gs' ? 'text-[#FDB913] font-medium' : 'text-gray-300'} truncate">${g.oyuncu}</span>
+                ${g.tip === 'penalti' ? '<span class="text-gray-500 text-[10px] shrink-0">(P)</span>' : ''}
+                ${g.tip === 'kendi kalesi' ? '<span class="text-red-500 text-[10px] shrink-0">(KK)</span>' : ''}
+            </div>`;
+        return `
+            <div class="grid grid-cols-2 gap-2 mt-3 border-t border-gray-700 pt-3">
+                <div>
+                    <p class="text-[10px] font-bold text-[#FDB913] uppercase tracking-wide mb-1">🟡 Galatasaray</p>
+                    ${gs.length ? gs.map(satir).join("") : '<p class="text-xs text-gray-600">—</p>'}
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide mb-1">⚪ Rakip</p>
+                    ${rakip.length ? rakip.map(satir).join("") : '<p class="text-xs text-gray-600">—</p>'}
+                </div>
+            </div>`;
+    }
+
+    function renderContent(selectedYear) {
+        const grid = document.getElementById("matchGrid");
+        const filtered = selectedYear === "all" ? matchData : matchData.filter(m => m.year === selectedYear);
+
+        document.getElementById("sectionTitle").innerText = selectedYear === "all"
+            ? "Tüm Dönemlerin Kritik Maçları"
+            : `${selectedYear}-${parseInt(selectedYear)+1} Sezonu`;
+        document.getElementById("matchCount").innerText = `${filtered.length} Maç Listelendi`;
+        document.getElementById("statsOutput").innerHTML = generateAnalysis(selectedYear, filtered);
+
+        grid.innerHTML = "";
+        if (filtered.length === 0) {
+            grid.innerHTML = `<p class="text-gray-500 col-span-full text-center py-8">Bu döneme ait maç kaydı bulunamadı.</p>`;
+            return;
+        }
+
+        const sonucCss = { G: "bg-green-900 text-green-300 border-green-700", B: "bg-yellow-900 text-yellow-300 border-yellow-700", M: "bg-red-900 text-red-300 border-red-700" };
+        const sonucEtiket = { G: "GALİBİYET", B: "BERABERLİK", M: "MAĞLUBIYET" };
+
+        filtered.forEach(match => {
+            const skoru = match.title.match(/\d+ - \d+/)?.[0] ?? "";
+            grid.innerHTML += `
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg border border-gray-700 p-4 flex flex-col hover:border-[#FDB913] transition-all duration-300">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="bg-[#A32638] text-[#FDB913] text-xs font-bold px-2 py-1 rounded-md">${match.year}-${parseInt(match.year)+1}</span>
+                        <span class="text-xs text-gray-400">${match.date}</span>
+                    </div>
+                    <h4 class="text-sm font-bold text-white leading-snug mb-2">${match.title}</h4>
+                    <div class="flex items-center gap-2">
+                        <span class="text-3xl font-black tracking-tight text-white">${skoru}</span>
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded border ${sonucCss[match.stats.sonuc]}">${sonucEtiket[match.stats.sonuc]}</span>
+                    </div>
+                    ${gollerHtml(match.goller)}
+                </div>`;
+        });
+    }
+
+    document.getElementById("yearSelect").addEventListener("change", (e) => renderContent(e.target.value));
+    renderContent("all");
+    </script>
+</body>
+</html>
